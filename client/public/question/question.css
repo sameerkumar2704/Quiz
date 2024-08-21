@@ -1,0 +1,24 @@
+:root{
+    --primary-bg-color:#AD49E1;
+    --text-color:#EBD3F8;
+    --compnent-color:#7A1CAC;
+}
+:root{
+    --primary-bg-color:#AD49E1;
+    --text-color:#EBD3F8;
+    --compnent-color:#7A1CAC;
+}
+body{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    background-color:var(--primary-bg-color);
+}
+.instruction {
+    margin-top: 3rem;
+    background-color: var(--compnent-color);
+    color: var(--text-color);
+    padding: 20px;
+    width: 500px;
+    border-radius: 10px;
+}
