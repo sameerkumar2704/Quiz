@@ -3,4 +3,4 @@ const app = express();
 const port  = 8080;
 app.use("/"  , express.static('../client/public'))
 
-app.listen(port , ()=>console.log(`listning at port ${port}`))
+app.listen(port , ()=>console.log(`listning at port ${port} \nsite link : http://localhost:8080/`))
