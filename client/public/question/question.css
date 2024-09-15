@@ -27,7 +27,8 @@ body{
 }
 .question-layout{
     margin-top: 8rem;
-    width: 40vw;
+    width: min(700px ,70vw);
+    user-select: none;
     padding:2rem;
     border-radius: 10px;
     background-color: white;
