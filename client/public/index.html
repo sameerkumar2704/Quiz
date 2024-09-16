@@ -29,19 +29,20 @@
             <div  class="form-heading" >
                 <h4>already have account ?</h4><a id="switch-to-sign-in" class="switch-authenticaiton">Sign In</a>
             </div>
-            <form>
-                <input id = "sign-up-passowrd" class="input-box" type="text" placeholder="User Name" />
-                <input  id = "sign-up-password"class="input-box" type="password" placeholder="Password" />
+            <form id = "sign-up-form">
+                <input name = "user_name"  id = "sign-up-user-name" class="input-box" type="text" placeholder="User Name" />
+                <input name = "password"  id = "sign-up-password"class="input-box" type="password" placeholder="Password" />
                 <div style="display: flex; gap:3px">
-                    <input id="show-password-sign-up" type="checkbox">
+                    <input name = "show-password-sign-up" id="show-password-sign-up" type="checkbox">
                     <lable for="show-password-sign-up">show passord</lable>
                 </div>
-                <input id = "sign-up-conform-password" class="input-box" type="password" placeholder="Conform Password" />
+                <input name = "conform_password" id = "sign-up-conform-password" class="input-box" type="password" placeholder="Conform Password" />
                 <div style="display: flex; gap:5px">
-                    <input id="show-conform-password" type="checkbox">
-                    <lable for="show-conform-password">show confrom passord</lable>
+                    <input name  = "show-conform-password" id="show-conform-password" type="checkbox">
+                    <lable  for="show-conform-password">show confrom passord</lable>
                 </div>
-                <button>Create Account </button>
+                <h5 class="form-error"></h5>
+                <button type="submit">Create Account </button>
             </form>
         </div>
         <div id="sign-in" class="form-container">
@@ -49,14 +50,14 @@
                 <h4>don't have account ?</h4> <a id="switch-to-sign-up" class="switch-authenticaiton">Crate New
                     Account</a>
             </div>
-            <form>
-                <input class="input-box" type="text" placeholder="User Name" />
-                <input id = 'sign-in-input-box' class="input-box" type="password" placeholder="Password" />
+            <form id = "sign-in-form">
+                <input name = "login_user_name" class="input-box" type="text" placeholder="User Name" />
+                <input name = "login_user_password" id = 'sign-in-input-box' class="input-box" type="password" placeholder="Password" />
                 <div style="display: flex; gap:5px">
-                    <input id="show-password" type="checkbox">
+                    <input  id="show-password" type="checkbox">
                     <lable for="show-password">show passord</lable>
                 </div>
-
+                <h5 class="form-error"></h5>
                 <button>Sign in </button>
             </form>
         </div>

@@ -40,7 +40,9 @@
     border: none;
     color: white;
 }
-
+.form-error{
+    color: red;
+}
 .input-box {
 
     width: 100%;

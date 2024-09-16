@@ -1,4 +1,4 @@
-import { CustomButton } from "../public/components/resuable_components.js"
+import { CustomButton } from "../components/resuable_components.js"
 function createResuable( topics , custom_class , component , parent){
     topics.forEach(element => {
         const button = component( custom_class  , element  , './instruction/instruction.html')
