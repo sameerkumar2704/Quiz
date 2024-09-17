@@ -20,7 +20,10 @@ body{
 .user-box{
     margin-top: 10px;
     margin-left: 30px;
-    
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
     background-color: white;
     border-radius: 20px;
     padding: 10px 10px;
@@ -33,16 +36,17 @@ body{
     justify-content:center;
     align-items: center;
     gap: 5rem;
+    padding: 10px;
     
 
 }
 .title-highlight{
     padding: 5px 20px ;
     border-radius: 20px;
-    background-color: red;
+    background-color: rgb(200, 60, 251);
     color: white;
     margin: 0px 10px;
-    box-shadow: 0px 2.5px 10px rgba(111, 58, 58, 0.597) ;
+    box-shadow: 10px 10px 10px rgba(107, 58, 111, 0.205) ;
 }
 .test-heading{
     display: flex;
@@ -52,7 +56,8 @@ body{
     align-items: center;
 }
 .test-heading h1{
-    font-size:  50px
+    font-size:  50px;
+    font-weight: 500;
 }
 .test-heading h2{
     font-size: 25px;
@@ -67,7 +72,8 @@ body{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background-color: rgb(226, 226, 85);
+    color: white;
+    background-color: rgb(108, 213, 89);
     overflow: hidden;
     padding: 20px 30px;
     border-radius: 20px;
@@ -79,10 +85,39 @@ body{
     transform: translateY(-20px);
     transition-duration: 400ms;
 }
+.topics-python{
+  
+    list-style: none;
+    padding: 10px;
+    background-color: rgb(195, 211, 57);
+    border-radius: 10px;
+    box-shadow: 5px 5px  rgba(0, 0, 0, 0.479);
+}
+
+.topics-java{
+  
+    list-style: none;
+    padding: 10px;
+    background-color: rgb(36, 36, 129);
+    
+    border-radius: 10px;
+    box-shadow: 5px 5px  rgba(0, 0, 0, 0.479);
+}
+.topics-js{
+    list-style: none;
+    padding: 10px;
+    background-color: rgb(189, 187, 60);
+    border-radius: 10px;
+    box-shadow: 5px 5px  rgba(0, 0, 0, 0.479);
+}
 .icon-img{
     width: 40px;
     height: 40px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 4px;
     object-fit: cover;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.319);
 }
 .template-box{
     display: flex;
@@ -206,6 +241,12 @@ body{
     display: inline-block;
     background-color: rgb(194, 255, 172);
     content: '';
+  }
+  .red {
+    background-color: rgb(234, 86, 86);
+  }
+  .blue{
+    background-color: rgb(106, 106, 253);
   }
 
 
