@@ -23,6 +23,7 @@ function init() {
             validateUserName(user_name)
             validatePassword(passowrd , conform_password)
             createNewUser( user_name ,passowrd )
+            window.location.replace('http://localhost:8080/test_type/test_type.html')
         }catch(e){
             form_error[0].innerHTML = `*** ${e.message} ***`
         }
@@ -38,6 +39,7 @@ function init() {
             validatePassword(password,password)
             validateCredential(user_name ,password)
             form_error[1].innerHTML = ``
+            window.location.replace('http://localhost:8080/test_type/test_type.html')
         }catch(e){
             form_error[1].innerHTML = `*** ${e.message} ***`
         }

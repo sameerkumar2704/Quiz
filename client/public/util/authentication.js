@@ -25,6 +25,8 @@ function validateCredential(user_name , passowrd){
     }else if(!user_correct_password){
         throw new Error('credential is incorrect')
     }
+    localStorage.setItem('login_id'  , user_name);
+
 }
 function getUserList() {
     return localStorage.getItem('user-accounts');
@@ -54,7 +56,7 @@ function createNewUser(user_name, passowrd) {
  
     user_list = JSON.stringify(user_list);
     setUserList(user_list);
-
+    localStorage.setItem('login_id'  , user_name);
 }
 
 function validateUserName(user_name, user_list) {
