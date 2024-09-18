@@ -1,7 +1,9 @@
 
 function init(){
     const template_list = document.getElementsByClassName('test-template');
-   console.log(template_list.length)
+    const user_name = document.getElementsByClassName('user-name')[0];
+    user_name.innerText = localStorage.getItem('login_id')
+  
     Array.from(template_list).forEach((element , index)=>{
         element.addEventListener('click' , (e)=>{
             sessionStorage.setItem('test-type' , index)

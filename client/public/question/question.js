@@ -1,137 +1,160 @@
-const question = [{
-  title: "Which statement is not correct about “init” process in Unix?",
-  options: [
-    "It is generally the parent of the login shell.",
-    "It has PID 1.",
-    "It is the first process in the system.",
-    "Init forks and execs a ‘getty’ process at every port connected to a terminal."
-
-
-  ],
-  correct_options: 3
-},
-{
-  title: "Which statement is not correct about “init” process in Unix? -2",
-  options: [
-    "It is generally the parent of the login shell.",
-    "It has PID 1.",
-    "It is the first process in the system.",
-    "Init forks and execs a ‘getty’ process at every port connected to a terminal."
-
-
-  ],
-  correct_options: 3
+async function fetchData() {
+  const res = await fetch('../data/data.json');
+  const data = await res.json()
+  return data
 }
-
-]
-let test_completed_user = {
-  os:["12456"]
-}
-
-// maintaning recored of question 
-function questionSet(data) {
+function setOptionAndQuestion(data , question_index, options, question) {
+  const curr_state = getCurrentState(getKey())
+  Array.from(options).forEach((option, index) => {
   
-  return {
-    question_list: data,
-    curr_index: 0,
-    increment_index: function () {
-      this.curr_index++
-    },
-    is_last_question: function () { return this.question_list.length - 1 === this.curr_index },
-    is_end: function () { return this.question_list.length === this.curr_index }
+    option.classList.remove('selected_ans')
+    console.log(curr_state.ans[index])
+    if(curr_state.ans[curr_state.curr_index] === index )option.classList.add('selected_ans')
+    question[0].innerText = data[question_index].question
+    option.children[1].innerText = data[question_index].options[index]
+  })
+  
+ 
+}
+function setQuestionCountLayout(data, question_indiactor) {
+  for (let i = 0; i < data.length; i++) {
+    const child = createQuestioBoxIndicator(i + 1);
+    question_indiactor.appendChild(child)
+  }
+  question_indiactor.children[0].classList.add('quesiton-indicator-box')
+}
+function select_next_question(data, question_indiactor, direction, options, quesiton) {
+
+  let curr_state = getCurrentState(getKey())
+  let index = curr_state.curr_index+direction
+  index = Math.max(0 , Math.min(index  ,curr_state.ans.length-1))
+ 
+  curr_state.curr_index = index
+  Array.from( question_indiactor.children).forEach((curr) => curr.classList.remove('quesiton-indicator-box'))
+  console.log(curr_state.ans)
+  question_indiactor.children[index].classList.add('quesiton-indicator-box')
+  setCurrenSate(curr_state , getKey())
+  setOptionAndQuestion(data,index , options, quesiton)
+  
+}
+function createQuestioBoxIndicator(value) {
+  const div = document.createElement('div')
+  const h2 = document.createElement('h2')
+  div.appendChild(h2)
+  h2.innerText = value;
+  div.classList.add('question-selector')
+  return div;
+}
+function getName(index) {
+  switch (index) {
+    case 0: return "javascript";
+    case 1: return "python";
+    case 2: return "java";
+    default: return "not-found"
   }
 }
-
-history.replaceState(null, null, 'http://localhost:8080/question/question.html')
-
-if (sessionStorage.getItem("refresh-count")) alert('warning your test will be submiited')
-window.addEventListener('beforeunload', (event) => {
-  // Custom message
-  console.log("done")
-  // Standard for most browsers
-  localStorage.setItem("test", "completed")
-  if (!sessionStorage.getItem("refresh-count")) sessionStorage.setItem("refresh-count", 1);
-
-
-  // Some browsers may use this as the message
-
-  // Return the message for older browsers
-});
-function preventBack() {
-  console.log("hogaya")
-
+function getCurrentState(key){
+  let curr_state = JSON.parse(sessionStorage.getItem(key));
+  if(!curr_state) return curr_state
+  curr_state = {...curr_state , ans : JSON.parse(curr_state.ans)}
+  return curr_state
 }
+function setCurrenSate(object , key){
+  object = {...object , ans : JSON.stringify(object.ans)}
+  sessionStorage.setItem(key ,JSON.stringify(object) )
+}
+function getKey(){
+  const user_name = localStorage.getItem('login_id')
+  const test_name = getName(Number.parseInt(sessionStorage.getItem('test-type')));
+  const key = `${user_name}-${test_name}`
+  return key;
+}
+function setQuestionState(data) {
+ 
+  const key = getKey()
+  
+  if(sessionStorage.getItem(key)) return key
+  const ans_list = data.map(() => -1);
+  const state = {
+    id: key,
+    curr_index: 0,
+    ans: JSON.stringify(ans_list),
+    complete:false
+  }
+  sessionStorage.setItem(key, JSON.stringify(state));
+  return key
+}
+function setQuestion(question, question_indiactor, data, options) {
 
-window.onload = preventBack;
+  setOptionAndQuestion(data, 0, options, question)
+  setQuestionCountLayout(data, question_indiactor)
+}
 
 
 
 function init() {
-  const option_arr = document.querySelectorAll(".option");
-  const next_question = document.getElementById('next-question')
-  const question_title = document.getElementById('question-title')
-  let questions_set = undefined;
 
+  const timer = document.getElementsByClassName('timer')
+  const options = document.getElementsByClassName('option')
+  const question = document.getElementsByClassName('question')
+  const question_indiactor = document.getElementsByClassName('question-indicator')[0]
+  const [prev_button, next_button] = document.getElementsByClassName('question-selector');
+  let data = null;
   window.addEventListener('beforeunload' , ()=>{
-    localStorage.
+    const state = getCurrentState(getKey());
+    state.complete = true;
+    setCurrenSate(state , getKey())
   })
-  refreshQuestion()
-  function next_btn_handler() {
-    questions_set.increment_index()
-    sessionStorage.setItem("question-status", JSON.stringify(questions_set))
-    if (questions_set.is_end()) {
-      window.location.href = "https://www.amazon.in/"
-    }
+  if(getCurrentState(getKey())?.complete) window.location.replace('http://localhost:8080/')
+  const test_name = getName(Number(sessionStorage.getItem('test-type')))
+ 
+  next_button.addEventListener('click', () => {
+    select_next_question(data , question_indiactor , 1 , options , question)
+  
+  })
+  prev_button.addEventListener('click' , ()=>{
+   select_next_question(data , question_indiactor , -1 , options , question)
+  })
+  fetchData().then((res) => {
+    setQuestionState(res[test_name])
+    setQuestion(question, question_indiactor, res[test_name], options)
+    
+    data = res[test_name]
+  })
 
-
-    refreshQuestion()
-  }
-
-
-  function option_click_handler() {
-
-    // it uses object of current elment
-    option_arr.forEach((option) => {
-      option.classList.remove("question-option-active")
-      option.classList.add("question-option-non-active")
-    })
-    this.classList.add("question-option-active")
-    this.classList.remove("question-option-non-active")
-
-    next_question.disabled = false
-  }
-
-
-  function refreshQuestion() {
-    if (sessionStorage.getItem('question-status')) {
-      questions_set = JSON.parse(sessionStorage.getItem("question-status"))
-    } else {
-      questions_set = new questionSet(question);
-
-    }
-    console.log(questions_set)
-    const current_question = questions_set.curr_index;
-    question_title.innerHTML = questions_set.question_list[current_question].title
-    option_arr.forEach((option, index) => {
-      option.classList.remove("question-option-active")
-      option.classList.add("question-option-non-active")
-      option.innerHTML = questions_set.question_list[current_question].options[index]
-    })
-    next_question.disabled = true;
-    console.log(questions_set.is_last_question())
-    if (questions_set.is_last_question()) {
-      next_question.innerHTML = "submit"
-    }
-    option_arr.forEach((option) => {
-      option.addEventListener('click', option_click_handler)
+  Array.from(options).forEach((option , i) => {
+    option.addEventListener('click', function () {
+      Array.from(options).forEach(function (other ) {
+        if (other !== option) other.classList.remove('selected_ans')
+      })
+      this.classList.add('selected_ans')
+      const curr_state = getCurrentState(getKey())
+      curr_state.ans[curr_state.curr_index]  = i
+      console.log(curr_state)
+      setCurrenSate(curr_state)
 
     })
-    next_question.addEventListener('click', next_btn_handler)
+  })
 
+  const duration = 0.5;
+  const total_time = new Date().getTime() + (duration * 60 * 1000)
+  const timer_interval = setInterval(CountDown, 1000);
+  function CountDown() {
+    const now_mili_sec = new Date().getTime();
+    const diff_in_mili_sec = total_time - now_mili_sec;
+    const minutes = Math.floor(diff_in_mili_sec / (1000 * 60));
+    const seconds = Math.floor((diff_in_mili_sec % (1000 * 60)) / 1000);
+    timer[0].children[0].innerText = Math.max(0, minutes);
+    timer[0].children[2].innerText = Math.max(0, seconds)
+    if (0 === minutes) {
+      timer[0].classList.add('small-time-anime')
+    }
+    if (diff_in_mili_sec <= 0) {
 
+      console.log('time is up')
+      clearTimeout(timer_interval)
+    }
   }
-
-
 
 }
-init()
+init();

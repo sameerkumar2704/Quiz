@@ -1,0 +1,55 @@
+{
+    "java": [
+      {
+        "question": "What is a new feature introduced in Java 8?",
+        "options": [
+          "Method References",
+          "Generics",
+          "Synchronized Blocks",
+          "Annotations"
+        ],
+        "answer": "Method References"
+      },
+      {
+        "question": "Which interface does not have default methods in Java 8?",
+        "options": [
+          "Runnable",
+          "List",
+          "Comparable",
+          "Comparator"
+        ],
+        "answer": "Runnable"
+      },
+      {
+        "question": "What does the Stream API provide?",
+        "options": [
+          "Data Serialization",
+          "Concurrent Collections",
+          "Functional-style operations on streams of elements",
+          "New Data Types"
+        ],
+        "answer": "Functional-style operations on streams of elements"
+      },
+      {
+        "question": "Which new class in Java 8 is used to represent date and time?",
+        "options": [
+          "java.util.Date",
+          "java.util.Calendar",
+          "java.time.LocalDateTime",
+          "java.time.DateTime"
+        ],
+        "answer": "java.time.LocalDateTime"
+      },
+      {
+        "question": "What is the syntax for a lambda expression in Java 8?",
+        "options": [
+          "(parameters) => expression",
+          "(parameters) -> expression",
+          "[parameters] -> expression",
+          "(parameters) : expression"
+        ],
+        "answer": "(parameters) -> expression"
+      }
+    ]
+  }
+  
