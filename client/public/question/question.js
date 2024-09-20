@@ -1,3 +1,5 @@
+const time_set = {min:0  , second:0}
+
 async function fetchData() {
   const res = await fetch('../data/data.json');
   const data = await res.json()
@@ -69,6 +71,12 @@ function getKey(){
   const key = `${user_name}-${test_name}`
   return key;
 }
+function setOutcomeOnDataBase(key){
+  if(localStorage.getItem(key)) return 
+  const outcome  = sessionStorage.getItem(key)
+  localStorage.setItem(key , outcome);
+  sessionStorage.removeItem(key)
+}
 function setQuestionState(data) {
  
   const key = getKey()
@@ -90,7 +98,15 @@ function setQuestion(question, question_indiactor, data, options) {
   setQuestionCountLayout(data, question_indiactor)
 }
 
-
+(()=>{
+  window.addEventListener('beforeunload' , ()=>{
+    const state = getCurrentState(getKey());
+    state.complete = true;
+    state.completionTime = JSON.stringify(time_set)
+    setCurrenSate(state , getKey())
+    setOutcomeOnDataBase(getKey())
+  })
+})()
 
 function init() {
 
@@ -100,12 +116,8 @@ function init() {
   const question_indiactor = document.getElementsByClassName('question-indicator')[0]
   const [prev_button, next_button] = document.getElementsByClassName('question-selector');
   let data = null;
-  window.addEventListener('beforeunload' , ()=>{
-    const state = getCurrentState(getKey());
-    state.complete = true;
-    setCurrenSate(state , getKey())
-  })
-  if(getCurrentState(getKey())?.complete) window.location.replace('http://localhost:8080/')
+  
+  if(localStorage.getItem(getKey())) window.location.replace('http://localhost:8080/result/result.html')
   const test_name = getName(Number(sessionStorage.getItem('test-type')))
  
   next_button.addEventListener('click', () => {
@@ -131,12 +143,13 @@ function init() {
       const curr_state = getCurrentState(getKey())
       curr_state.ans[curr_state.curr_index]  = i
       console.log(curr_state)
-      setCurrenSate(curr_state)
+      setCurrenSate(curr_state , getKey())
 
     })
   })
 
   const duration = 0.5;
+
   const total_time = new Date().getTime() + (duration * 60 * 1000)
   const timer_interval = setInterval(CountDown, 1000);
   function CountDown() {
@@ -146,6 +159,8 @@ function init() {
     const seconds = Math.floor((diff_in_mili_sec % (1000 * 60)) / 1000);
     timer[0].children[0].innerText = Math.max(0, minutes);
     timer[0].children[2].innerText = Math.max(0, seconds)
+    time_set.min = Math.max(0, minutes);
+    time_set.second = Math.max(0, seconds)
     if (0 === minutes) {
       timer[0].classList.add('small-time-anime')
     }
