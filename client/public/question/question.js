@@ -1,23 +1,24 @@
-const time_set = {min:0  , second:0}
+const time_set = { min: 0, second: 0 }
 
 async function fetchData() {
   const res = await fetch('../data/data.json');
   const data = await res.json()
   return data
 }
-function setOptionAndQuestion(data , question_index, options, question) {
+function setOptionAndQuestion(data, question_index, options, question) {
   const curr_state = getCurrentState(getKey())
   Array.from(options).forEach((option, index) => {
-  
+
     option.classList.remove('selected_ans')
     console.log(curr_state.ans[index])
-    if(curr_state.ans[curr_state.curr_index] === index )option.classList.add('selected_ans')
+    if (curr_state.ans[curr_state.curr_index] === index) option.classList.add('selected_ans')
     question[0].innerText = data[question_index].question
     option.children[1].innerText = data[question_index].options[index]
   })
-  
- 
+
+
 }
+
 function setQuestionCountLayout(data, question_indiactor) {
   for (let i = 0; i < data.length; i++) {
     const child = createQuestioBoxIndicator(i + 1);
@@ -28,16 +29,16 @@ function setQuestionCountLayout(data, question_indiactor) {
 function select_next_question(data, question_indiactor, direction, options, quesiton) {
 
   let curr_state = getCurrentState(getKey())
-  let index = curr_state.curr_index+direction
-  index = Math.max(0 , Math.min(index  ,curr_state.ans.length-1))
- 
+  let index = curr_state.curr_index + direction
+  index = Math.max(0, Math.min(index, curr_state.ans.length - 1))
+
   curr_state.curr_index = index
-  Array.from( question_indiactor.children).forEach((curr) => curr.classList.remove('quesiton-indicator-box'))
+  Array.from(question_indiactor.children).forEach((curr) => curr.classList.remove('quesiton-indicator-box'))
   console.log(curr_state.ans)
   question_indiactor.children[index].classList.add('quesiton-indicator-box')
-  setCurrenSate(curr_state , getKey())
-  setOptionAndQuestion(data,index , options, quesiton)
-  
+  setCurrenSate(curr_state, getKey())
+  setOptionAndQuestion(data, index, options, quesiton)
+
 }
 function createQuestioBoxIndicator(value) {
   const div = document.createElement('div')
@@ -55,39 +56,39 @@ function getName(index) {
     default: return "not-found"
   }
 }
-function getCurrentState(key){
+function getCurrentState(key) {
   let curr_state = JSON.parse(sessionStorage.getItem(key));
-  if(!curr_state) return curr_state
-  curr_state = {...curr_state , ans : JSON.parse(curr_state.ans)}
+  if (!curr_state) return curr_state
+  curr_state = { ...curr_state, ans: JSON.parse(curr_state.ans) }
   return curr_state
 }
-function setCurrenSate(object , key){
-  object = {...object , ans : JSON.stringify(object.ans)}
-  sessionStorage.setItem(key ,JSON.stringify(object) )
+function setCurrenSate(object, key) {
+  object = { ...object, ans: JSON.stringify(object.ans) }
+  sessionStorage.setItem(key, JSON.stringify(object))
 }
-function getKey(){
+function getKey() {
   const user_name = localStorage.getItem('login_id')
   const test_name = getName(Number.parseInt(sessionStorage.getItem('test-type')));
   const key = `${user_name}-${test_name}`
   return key;
 }
-function setOutcomeOnDataBase(key){
-  if(localStorage.getItem(key)) return 
-  const outcome  = sessionStorage.getItem(key)
-  localStorage.setItem(key , outcome);
+function setOutcomeOnDataBase(key) {
+  if (localStorage.getItem(key)) return
+  const outcome = sessionStorage.getItem(key)
+  localStorage.setItem(key, outcome);
   sessionStorage.removeItem(key)
 }
 function setQuestionState(data) {
- 
+
   const key = getKey()
-  
-  if(sessionStorage.getItem(key)) return key
+
+  if (sessionStorage.getItem(key)) return key
   const ans_list = data.map(() => -1);
   const state = {
     id: key,
     curr_index: 0,
     ans: JSON.stringify(ans_list),
-    complete:false
+    complete: false
   }
   sessionStorage.setItem(key, JSON.stringify(state));
   return key
@@ -98,13 +99,18 @@ function setQuestion(question, question_indiactor, data, options) {
   setQuestionCountLayout(data, question_indiactor)
 }
 
-(()=>{
-  window.addEventListener('beforeunload' , ()=>{
-    const state = getCurrentState(getKey());
-    state.complete = true;
-    state.completionTime = JSON.stringify(time_set)
-    setCurrenSate(state , getKey())
-    setOutcomeOnDataBase(getKey())
+
+
+function submitTest() {
+  const state = getCurrentState(getKey());
+  state.complete = true;
+  state.completionTime = JSON.stringify(time_set)
+  setCurrenSate(state, getKey())
+  setOutcomeOnDataBase(getKey())
+}
+(() => {
+  window.addEventListener('beforeunload', () => {
+    submitTest()
   })
 })()
 
@@ -114,60 +120,73 @@ function init() {
   const options = document.getElementsByClassName('option')
   const question = document.getElementsByClassName('question')
   const question_indiactor = document.getElementsByClassName('question-indicator')[0]
+  const submit = document.querySelector('.submit')
+  submit.addEventListener("click", () => {
+    submitTest();
+    window.location.replace('http://localhost:8080/result/result.html')
+  })
   const [prev_button, next_button] = document.getElementsByClassName('question-selector');
   let data = null;
-  
-  if(localStorage.getItem(getKey())) window.location.replace('http://localhost:8080/result/result.html')
+
+  if (localStorage.getItem(getKey())) window.location.replace('http://localhost:8080/result/result.html')
   const test_name = getName(Number(sessionStorage.getItem('test-type')))
- 
+
   next_button.addEventListener('click', () => {
-    select_next_question(data , question_indiactor , 1 , options , question)
-  
+    select_next_question(data, question_indiactor, 1, options, question)
+
   })
-  prev_button.addEventListener('click' , ()=>{
-   select_next_question(data , question_indiactor , -1 , options , question)
+  prev_button.addEventListener('click', () => {
+    select_next_question(data, question_indiactor, -1, options, question)
   })
   fetchData().then((res) => {
     setQuestionState(res[test_name])
     setQuestion(question, question_indiactor, res[test_name], options)
-    
+
     data = res[test_name]
+
+    StartTimer(res)
   })
 
-  Array.from(options).forEach((option , i) => {
+  Array.from(options).forEach((option, i) => {
     option.addEventListener('click', function () {
-      Array.from(options).forEach(function (other ) {
+      Array.from(options).forEach(function (other) {
         if (other !== option) other.classList.remove('selected_ans')
       })
       this.classList.add('selected_ans')
       const curr_state = getCurrentState(getKey())
-      curr_state.ans[curr_state.curr_index]  = i
+      curr_state.ans[curr_state.curr_index] = i
       console.log(curr_state)
-      setCurrenSate(curr_state , getKey())
+      setCurrenSate(curr_state, getKey())
 
     })
   })
+  function StartTimer(data) {
 
-  const duration = 0.5;
 
-  const total_time = new Date().getTime() + (duration * 60 * 1000)
-  const timer_interval = setInterval(CountDown, 1000);
-  function CountDown() {
-    const now_mili_sec = new Date().getTime();
-    const diff_in_mili_sec = total_time - now_mili_sec;
-    const minutes = Math.floor(diff_in_mili_sec / (1000 * 60));
-    const seconds = Math.floor((diff_in_mili_sec % (1000 * 60)) / 1000);
-    timer[0].children[0].innerText = Math.max(0, minutes);
-    timer[0].children[2].innerText = Math.max(0, seconds)
-    time_set.min = Math.max(0, minutes);
-    time_set.second = Math.max(0, seconds)
-    if (0 === minutes) {
-      timer[0].classList.add('small-time-anime')
-    }
-    if (diff_in_mili_sec <= 0) {
+    const duration = data[`${test_name}-test-duration`]
+    console.log(duration)
 
-      console.log('time is up')
-      clearTimeout(timer_interval)
+    const total_time = new Date().getTime() + ((duration.min * 60 + duration.second) * 1000)
+    const timer_interval = setInterval(CountDown, 1000);
+    function CountDown() {
+      const now_mili_sec = new Date().getTime();
+      const diff_in_mili_sec = total_time - now_mili_sec;
+      const minutes = Math.floor(diff_in_mili_sec / (1000 * 60));
+      const seconds = Math.floor((diff_in_mili_sec % (1000 * 60)) / 1000);
+      timer[0].children[0].innerText = Math.max(0, minutes);
+      timer[0].children[2].innerText = (Math.max(0, seconds) < 10 ? `0${Math.max(0, seconds)}` : Math.max(0, seconds))
+      time_set.min = Math.max(0, minutes);
+      time_set.second = Math.max(0, seconds)
+      if (0 === minutes) {
+        timer[0].classList.add('small-time-anime')
+      }
+      if (diff_in_mili_sec <= 0) {
+
+        console.log('time is up')
+        clearTimeout(timer_interval)
+        submitTest();
+        window.location.replace('http://localhost:8080/result/result.html')
+      }
     }
   }
 

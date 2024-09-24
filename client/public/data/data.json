@@ -1,4 +1,8 @@
 {
+    "java-test-duration":{
+      "min":1,
+      "second":20
+    },
     "java": [
       {
         "question": "What is a new feature introduced in Java 8?",
