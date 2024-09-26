@@ -1,3 +1,6 @@
+
+
+
 const time_set = { min: 0, second: 0 }
 
 async function fetchData() {
@@ -19,12 +22,24 @@ function setOptionAndQuestion(data, question_index, options, question) {
 
 }
 
-function setQuestionCountLayout(data, question_indiactor) {
+function setQuestionCountLayout(data, question_indiactor ,options ,  question) {
   for (let i = 0; i < data.length; i++) {
-    const child = createQuestioBoxIndicator(i + 1);
+    const child = createQuestioBoxIndicator(i + 1 , data , question_indiactor ,i ,options , question );
     question_indiactor.appendChild(child)
   }
   question_indiactor.children[0].classList.add('quesiton-indicator-box')
+}
+function select_current_click_inde(data, question_indiactor, click_index, options, quesiton){
+  let curr_state = getCurrentState(getKey())
+  let index = click_index
+  
+
+  curr_state.curr_index = index
+  Array.from(question_indiactor.children).forEach((curr) => curr.classList.remove('quesiton-indicator-box'))
+  console.log(curr_state.ans)
+  question_indiactor.children[index].classList.add('quesiton-indicator-box')
+  setCurrenSate(curr_state, getKey())
+  setOptionAndQuestion(data, index, options, quesiton)
 }
 function select_next_question(data, question_indiactor, direction, options, quesiton) {
 
@@ -40,12 +55,15 @@ function select_next_question(data, question_indiactor, direction, options, ques
   setOptionAndQuestion(data, index, options, quesiton)
 
 }
-function createQuestioBoxIndicator(value) {
+function createQuestioBoxIndicator(value , data, question_indiactor, click_index, options, quesiton) {
   const div = document.createElement('div')
   const h2 = document.createElement('h2')
   div.appendChild(h2)
   h2.innerText = value;
   div.classList.add('question-selector')
+  div.addEventListener('click' , ()=>{
+   select_current_click_inde(data, question_indiactor, click_index, options, quesiton)
+  })
   return div;
 }
 function getName(index) {
@@ -96,7 +114,7 @@ function setQuestionState(data) {
 function setQuestion(question, question_indiactor, data, options) {
 
   setOptionAndQuestion(data, 0, options, question)
-  setQuestionCountLayout(data, question_indiactor)
+  setQuestionCountLayout(data, question_indiactor , options , question)
 }
 
 
@@ -121,6 +139,7 @@ function init() {
   const question = document.getElementsByClassName('question')
   const question_indiactor = document.getElementsByClassName('question-indicator')[0]
   const submit = document.querySelector('.submit')
+  const loader = document.querySelector('.loader-box')
   submit.addEventListener("click", () => {
     submitTest();
     window.location.replace('http://localhost:8080/result/result.html')
@@ -128,7 +147,7 @@ function init() {
   const [prev_button, next_button] = document.getElementsByClassName('question-selector');
   let data = null;
 
-  if (localStorage.getItem(getKey())) window.location.replace('http://localhost:8080/result/result.html')
+ 
   const test_name = getName(Number(sessionStorage.getItem('test-type')))
 
   next_button.addEventListener('click', () => {
@@ -143,8 +162,12 @@ function init() {
     setQuestion(question, question_indiactor, res[test_name], options)
 
     data = res[test_name]
-
-    StartTimer(res)
+    setTimeout(()=>{
+      StartTimer(res)
+      loader.classList.add('hide')
+    },300)
+   
+   
   })
 
   Array.from(options).forEach((option, i) => {
@@ -167,6 +190,7 @@ function init() {
     console.log(duration)
 
     const total_time = new Date().getTime() + ((duration.min * 60 + duration.second) * 1000)
+    CountDown()
     const timer_interval = setInterval(CountDown, 1000);
     function CountDown() {
       const now_mili_sec = new Date().getTime();

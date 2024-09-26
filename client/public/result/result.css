@@ -6,11 +6,20 @@
     margin: 0px;
     box-sizing: border-box;
 }
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+   
+ 
+}
 
 .result-box{
     width: min(70vw , 450px);
     height: min(700px , auto);
     padding: 20px;
+    display: none;
     border-radius: 10px;
     margin-top: 30px;
     margin:5rem auto;

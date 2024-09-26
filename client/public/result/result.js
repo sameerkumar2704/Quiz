@@ -73,6 +73,7 @@ function init(){
     const time_box = document.getElementsByClassName('time-box')[0]
     const ans_list_box = document.getElementsByClassName('review-box')[0]
     const ans_list_view = ans_list_box.children[0]
+    const loader = document.querySelector('.loader-box')
     const review_btn = document.getElementById('review-btn')
     const close_riview = document.getElementsByClassName('close-ans-box')[0]
     const heading_of_box = outer_div.children[0];
@@ -82,6 +83,11 @@ function init(){
        window.location.replace('http://localhost:8080/question/question.html')
         localStorage.removeItem(getKey())
     })
+    setTimeout(()=>{
+        loader.classList.add('hide')
+        outer_div.classList.remove('hide')
+        console.log('done')
+    },800)
     const test_name = getDataBaseName()
     heading_of_box.innerHTML = `Quize result of ${test_name.charAt(0).toUpperCase()+test_name.substring(1)}`
     let score = 0;

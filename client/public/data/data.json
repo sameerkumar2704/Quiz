@@ -1,59 +1,190 @@
 {
-    "java-test-duration":{
-      "min":1,
-      "second":20
+  "javascript-test-duration":{
+    "min":1,
+    "second":30
+  },
+  "python-test-duration": {
+    "min":1,
+    "second":30
+  },
+  "java-test-duration": {
+    "min": 1,
+    "second": 30
+  },
+  "java": [
+    {
+      "question": "What is a new feature introduced in Java 8?",
+      "options": [
+        "Method References",
+        "Generics",
+        "Synchronized Blocks",
+        "Annotations"
+      ],
+      "answer": "Method References"
     },
-    "java": [
-      {
-        "question": "What is a new feature introduced in Java 8?",
-        "options": [
-          "Method References",
-          "Generics",
-          "Synchronized Blocks",
-          "Annotations"
-        ],
-        "answer": "Method References"
-      },
-      {
-        "question": "Which interface does not have default methods in Java 8?",
-        "options": [
-          "Runnable",
-          "List",
-          "Comparable",
-          "Comparator"
-        ],
-        "answer": "Runnable"
-      },
-      {
-        "question": "What does the Stream API provide?",
-        "options": [
-          "Data Serialization",
-          "Concurrent Collections",
-          "Functional-style operations on streams of elements",
-          "New Data Types"
-        ],
-        "answer": "Functional-style operations on streams of elements"
-      },
-      {
-        "question": "Which new class in Java 8 is used to represent date and time?",
-        "options": [
-          "java.util.Date",
-          "java.util.Calendar",
-          "java.time.LocalDateTime",
-          "java.time.DateTime"
-        ],
-        "answer": "java.time.LocalDateTime"
-      },
-      {
-        "question": "What is the syntax for a lambda expression in Java 8?",
-        "options": [
-          "(parameters) => expression",
-          "(parameters) -> expression",
-          "[parameters] -> expression",
-          "(parameters) : expression"
-        ],
-        "answer": "(parameters) -> expression"
-      }
-    ]
-  }
-  
+    {
+      "question": "Which interface does not have default methods in Java 8?",
+      "options": [
+        "Runnable",
+        "List",
+        "Comparable",
+        "Comparator"
+      ],
+      "answer": "Runnable"
+    },
+    {
+      "question": "What does the Stream API provide?",
+      "options": [
+        "Data Serialization",
+        "Concurrent Collections",
+        "Functional-style operations on streams of elements",
+        "New Data Types"
+      ],
+      "answer": "Functional-style operations on streams of elements"
+    },
+    {
+      "question": "Which new class in Java 8 is used to represent date and time?",
+      "options": [
+        "java.util.Date",
+        "java.util.Calendar",
+        "java.time.LocalDateTime",
+        "java.time.DateTime"
+      ],
+      "answer": "java.time.LocalDateTime"
+    },
+    {
+      "question": "What is the syntax for a lambda expression in Java 8?",
+      "options": [
+        "(parameters) => expression",
+        "(parameters) -> expression",
+        "[parameters] -> expression",
+        "(parameters) : expression"
+      ],
+      "answer": "(parameters) -> expression"
+    }
+  ],
+  "python": [
+    {
+      "question": "What is the difference between a list and a tuple in Python?",
+      "options": [
+        "Lists are immutable, tuples are mutable.",
+        "Lists can hold different data types, tuples cannot.",
+        "Tuples are immutable, lists are mutable.",
+        "Both are the same."
+      ],
+      "answer": "Tuples are immutable, lists are mutable."
+    },
+    {
+      "question": "How do you handle exceptions in Python?",
+      "options": [
+        "Using try/except blocks",
+        "Using if/else statements",
+        "Using switch statements",
+        "Using error codes"
+      ],
+      "answer": "Using try/except blocks"
+    },
+    {
+      "question": "What are Python decorators and how do you use them?",
+      "options": [
+        "Functions that modify other functions",
+        "Classes that modify other classes",
+        "A way to create multiple inheritance",
+        "None of the above"
+      ],
+      "answer": "Functions that modify other functions"
+    },
+    {
+      "question": "What is a lambda function and when would you use one?",
+      "options": [
+        "A type of for loop",
+        "An anonymous function for short-term use",
+        "A built-in function for data types",
+        "A way to define a class"
+      ],
+      "answer": "An anonymous function for short-term use"
+    },
+    {
+      "question": "Explain the concept of Python's Global Interpreter Lock (GIL).",
+      "options": [
+        "It allows multiple threads to run in parallel.",
+        "It prevents multiple threads from executing Python bytecodes simultaneously.",
+        "It enhances performance for multi-core processors.",
+        "It is not relevant in Python."
+      ],
+      "answer": "It prevents multiple threads from executing Python bytecodes simultaneously."
+    },
+    {
+      "question": "What are list comprehensions and how do they work?",
+      "options": [
+        "A way to create lists in a functional style",
+        "A built-in function for sorting lists",
+        "A method for creating sets",
+        "An alternative to for loops only"
+      ],
+      "answer": "A way to create lists in a functional style"
+    }
+  ],
+  "javascript": [
+    {
+      "question": "What is the purpose of the 'this' keyword in JavaScript?",
+      "options": [
+        "It refers to the global object.",
+        "It refers to the function's parent scope.",
+        "It refers to the object that is executing the current function.",
+        "It is used to declare variables."
+      ],
+      "answer": "It refers to the object that is executing the current function."
+    },
+    {
+      "question": "What are JavaScript closures?",
+      "options": [
+        "Functions that can access variables from an outer function's scope.",
+        "A way to create a new object.",
+        "A method for error handling.",
+        "Functions that cannot access outer variables."
+      ],
+      "answer": "Functions that can access variables from an outer function's scope."
+    },
+    {
+      "question": "What is a promise in JavaScript?",
+      "options": [
+        "A way to handle synchronous operations.",
+        "An object that represents the eventual completion or failure of an asynchronous operation.",
+        "A method for looping through arrays.",
+        "A way to create classes."
+      ],
+      "answer": "An object that represents the eventual completion or failure of an asynchronous operation."
+    },
+    {
+      "question": "What is the difference between '==' and '===' in JavaScript?",
+      "options": [
+        "'==' checks for value equality, '===' checks for both value and type equality.",
+        "'==' checks for type equality, '===' checks for value equality.",
+        "They are the same.",
+        "'==' is used for objects, '===' is used for primitives."
+      ],
+      "answer": "'==' checks for value equality, '===' checks for both value and type equality."
+    },
+    {
+      "question": "What does 'event delegation' mean in JavaScript?",
+      "options": [
+        "Handling events at a higher level in the DOM rather than on individual elements.",
+        "Assigning multiple events to a single element.",
+        "Creating custom events.",
+        "Using promises for event handling."
+      ],
+      "answer": "Handling events at a higher level in the DOM rather than on individual elements."
+    },
+    {
+      "question": "What are arrow functions in JavaScript?",
+      "options": [
+        "A shorthand syntax for writing functions.",
+        "A way to create classes.",
+        "Functions that can only be used in the global scope.",
+        "A method for defining callbacks."
+      ],
+      "answer": "A shorthand syntax for writing functions."
+    }
+  ]
+}
