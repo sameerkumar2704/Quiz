@@ -66,6 +66,7 @@ transition-duration: 0.2s;
 .options{
     display: grid;
     gap: 20px;
+   
     width: 50vw;
     cursor: pointer;
     justify-content: start;
@@ -162,4 +163,17 @@ transition-duration: 0.2s;
     background-color: rgb(8, 196, 8);
     color: white;
     transition-duration: 200ms;
+}
+@media screen and (max-width:950px) {
+    .options{
+        display: grid;
+        gap: 20px;
+       
+        width: 100vw;
+        cursor: pointer;
+        justify-content: start;
+      
+        grid-template-columns: 100%;
+        grid-template-rows: auto auto;
+    }
 }

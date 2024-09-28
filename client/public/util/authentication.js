@@ -42,7 +42,7 @@ function createNewUser(user_name, passowrd) {
     if(user_list) object_data = user_list.map((curr)=>JSON.parse(curr));
     try {
         validateUserName(user_account.user_name, object_data)
-        console.log("al ok")
+        
     }catch(e){
         throw Error(e.message)
        
@@ -71,7 +71,7 @@ function validateUserName(user_name, user_list) {
     }
 }
 
-function loginAccount(userObject) {
-
+function isUserLoggedIn() {
+    return  localStorage.getItem('login_id')
 }
-export { setUserList, loginAccount, createNewUser, validateCredential }
+export { setUserList, isUserLoggedIn, createNewUser, validateCredential }

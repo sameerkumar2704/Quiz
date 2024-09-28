@@ -1,31 +1,15 @@
-function getName(index) {
-    switch (index) {
-      case 0: return "javascript";
-      case 1: return "python";
-      case 2: return "java";
-      default: return "not-found"
-    }
-  }
-function getDataBaseName(){
-    return getName(Number(sessionStorage.getItem('test-type')))
-}
-function getUserName(){
-    return localStorage.getItem('login_id')
-}
-function getKey(){
-    return `${getUserName()}-${getDataBaseName()}`
-}
-async function fetchData() {
-    const res = await fetch('../data/data.json');
-    const data = await res.json()
-    return data
-}
+import { isUserLoggedIn } from "../util/authentication.js";
+import { getDataBaseName, getKey  , fetchData  } from "../util/localStorage.js";
+import { ReplaceUrl } from "../util/url_manupulation.js";
+if (!isUserLoggedIn()) ReplaceUrl('')
 function getUserOutput(){
     let output = JSON.parse(localStorage.getItem(getKey()));
     
     return {...output , ans : JSON.parse(output.ans)}
 
 }
+
+
 function getScore( collection , output ){
     let correct = 0;
     for(let i =0 ; i <output.ans.length ; i++){
@@ -33,6 +17,8 @@ function getScore( collection , output ){
     }
     return correct;
 }
+
+
 function getMinuteAndSecond(object){
 
     return JSON.parse(object.completionTime)
@@ -50,7 +36,7 @@ function crateCorrectAndUserAnserBox(correct_ans , user_ans , index){
         content.appendChild(inner_h3)
     }else{
         const incorrect = document.createElement('h3')
-        incorrect.innerHTML = user_ans+ " ❌"
+        incorrect.innerHTML = user_ans === undefined?"No output 😵":user_ans + " ❌"
         const correct = document.createElement('h3')
         correct.innerHTML = correct_ans+ " ✔️"
         content.appendChild(incorrect)
@@ -61,12 +47,16 @@ function crateCorrectAndUserAnserBox(correct_ans , user_ans , index){
     div.appendChild(content)
     return div
 }
+
+
 function showAnswerList( list_view  , collection , user_output){
     for(let i =0 ; i <user_output.ans.length ; i++){
         list_view.appendChild(crateCorrectAndUserAnserBox(collection[i].answer , collection[i].options[user_output.ans[i]] , i))
     }
     
 }
+
+
 function init(){
     const outer_div = document.getElementsByClassName('result-box')[0]
     const progress = document.getElementsByClassName('progress')[0]
@@ -80,7 +70,7 @@ function init(){
     const score_box = outer_div.children[1];
     const restart_quiz = document.getElementById('restart-quiz')
     restart_quiz.addEventListener('click', (e)=>{
-       window.location.replace('http://localhost:8080/question/question.html')
+        ReplaceUrl('question/question.html')
         localStorage.removeItem(getKey())
     })
     setTimeout(()=>{
@@ -89,12 +79,14 @@ function init(){
         console.log('done')
     },800)
     const test_name = getDataBaseName()
-    heading_of_box.innerHTML = `Quize result of ${test_name.charAt(0).toUpperCase()+test_name.substring(1)}`
+    heading_of_box.innerHTML = `Quiz result of ${test_name.charAt(0).toUpperCase()+test_name.substring(1)}`
     let score = 0;
     let outof = 0;
     let emoji = '❓'
     let precentage = 0;
     let collection = undefined
+
+    
     review_btn.addEventListener('click' , (e)=>{
         showAnswerList(ans_list_view , collection , getUserOutput())
         ans_list_box.classList.remove('review-box-hide')
@@ -133,4 +125,6 @@ function init(){
 
     })
 }
+
+
 init()
